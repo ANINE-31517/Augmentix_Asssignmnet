@@ -1,0 +1,7 @@
+a. Categorization: Group expenses by category.
+
+b. Date Filters: Filter expenses by date range.
+
+c. Graphs and Analytics: Use a charting library like Chart.js to show spending trends.
+
+d. Authentication: Implement user registration and login with JWT to track expenses per user.
