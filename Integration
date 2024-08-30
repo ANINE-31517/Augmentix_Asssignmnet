@@ -1,0 +1,28 @@
+Point1: In App.js, import the AddExpense and ExpenseList components.
+Point2: Handle the addition of new expenses by updating the state in the App.js.
+
+--------------------------------------------------------------------------------
+
+//javascript
+
+import React, { useState } from 'react';
+import AddExpense from './components/AddExpense';
+import ExpenseList from './components/ExpenseList';
+
+function App() {
+  const [expenses, setExpenses] = useState([]);
+
+  const handleAddExpense = (expense) => {
+    setExpenses([...expenses, expense]);
+  };
+
+  return (
+    <div className="App">
+      <h1>Expense Tracker</h1>
+      <AddExpense onAdd={handleAddExpense} />
+      <ExpenseList expenses={expenses} />
+    </div>
+  );
+}
+
+export default App;
