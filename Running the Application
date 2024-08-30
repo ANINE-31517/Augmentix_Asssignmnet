@@ -1,0 +1,12 @@
+#Run the backend server:
+//bash
+
+node server.js
+
+
+---------------------------------
+
+#Run the frontend React app:
+//bash
+
+npm start
