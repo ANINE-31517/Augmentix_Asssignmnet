@@ -1,0 +1,8 @@
+#Install Node.js and initialize a project:
+//bash
+npm init -y
+
+
+#Install required dependencies:
+//bash
+npm install express mongoose cors dotenv
