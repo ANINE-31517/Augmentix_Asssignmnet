@@ -1,0 +1,110 @@
+a. Folder Structure:
+//bash
+/backend
+├── config
+│   └── db.js        # MongoDB connection
+├── models
+│   └── expense.js   # Expense Schema
+├── routes
+│   └── expense.js   # API routes for expenses
+└── server.js        # Express server
+
+------------------------------------------------------
+
+
+b. MongoDB Configuration (config/db.js):
+//javascript
+
+const mongoose = require('mongoose');
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log('MongoDB connected');
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
+};
+module.exports = connectDB;
+
+------------------------------------------------------
+
+c. Expense Model (models/expense.js):
+//javascript
+
+const mongoose = require('mongoose');
+
+const ExpenseSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  amount: { type: Number, required: true },
+  category: { type: String, required: true },
+  date: { type: Date, default: Date.now },
+});
+
+module.exports = mongoose.model('Expense', ExpenseSchema);
+
+
+-----------------------------------------------------
+
+d. Expense Routes (routes/expense.js):
+//javascript
+
+const express = require('express');
+const router = express.Router();
+const Expense = require('../models/expense');
+
+// Get all expenses
+router.get('/', async (req, res) => {
+  const expenses = await Expense.find();
+  res.json(expenses);
+});
+
+// Add a new expense
+router.post('/', async (req, res) => {
+  const { title, amount, category } = req.body;
+  const newExpense = new Expense({ title, amount, category });
+  await newExpense.save();
+  res.json(newExpense);
+});
+
+// Edit an expense
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const updatedExpense = await Expense.findByIdAndUpdate(id, req.body, { new: true });
+  res.json(updatedExpense);
+});
+
+// Delete an expense
+router.delete('/:id', async (req, res) => {
+  await Expense.findByIdAndDelete(req.params.id);
+  res.json({ message: 'Expense deleted' });
+});
+
+module.exports = router;
+
+----------------------------------------------------
+
+e. Server Setup (server.js):
+//javascript
+
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/db');
+const expenseRoutes = require('./routes/expense');
+
+require('dotenv').config();
+
+const app = express();
+connectDB();
+
+app.use(cors());
+app.use(express.json());
+
+// API routes
+app.use('/api/expenses', expenseRoutes);
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
