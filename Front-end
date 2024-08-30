@@ -1,0 +1,8 @@
+#Install React.js:
+//bash
+npx create-react-app expense-tracker
+
+
+#Install additional packages for the frontend:
+//bash
+npm install axios react-router-dom
