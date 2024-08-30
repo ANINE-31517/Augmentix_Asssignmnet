@@ -1,0 +1,102 @@
+a. Basic Structure:
+//bash
+
+/src
+├── components
+│   ├── AddExpense.js      # Form for adding expense
+│   ├── ExpenseList.js     # List of all expenses
+│   └── ExpenseItem.js     # Single expense item
+├── App.js
+└── index.js
+
+
+--------------------------------------------------------
+
+
+b. Add Expense Component (AddExpense.js):
+//javascript
+
+import React, { useState } from 'react';
+import axios from 'axios';
+
+const AddExpense = ({ onAdd }) => {
+  const [title, setTitle] = useState('');
+  const [amount, setAmount] = useState('');
+  const [category, setCategory] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const expense = { title, amount: parseFloat(amount), category };
+    const res = await axios.post('http://localhost:5000/api/expenses', expense);
+    onAdd(res.data);
+    setTitle('');
+    setAmount('');
+    setCategory('');
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+      <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+      <input type="text" placeholder="Category" value={category} onChange={(e) => setCategory(e.target.value)} required />
+      <button type="submit">Add Expense</button>
+    </form>
+  );
+};
+
+export default AddExpense;
+
+
+---------------------------------------------------------
+
+
+
+c. Expense List Component (ExpenseList.js):
+//javascript
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import ExpenseItem from './ExpenseItem';
+
+const ExpenseList = () => {
+  const [expenses, setExpenses] = useState([]);
+
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      const res = await axios.get('http://localhost:5000/api/expenses');
+      setExpenses(res.data);
+    };
+    fetchExpenses();
+  }, []);
+
+  return (
+    <div>
+      {expenses.map((expense) => (
+        <ExpenseItem key={expense._id} expense={expense} />
+      ))}
+    </div>
+  );
+};
+
+export default ExpenseList;
+
+
+------------------------------------------------------------
+
+
+d. Expense Item Component (ExpenseItem.js):
+//javascript
+
+import React from 'react';
+
+const ExpenseItem = ({ expense }) => {
+  return (
+    <div>
+      <h3>{expense.title}</h3>
+      <p>{expense.amount} - {expense.category}</p>
+    </div>
+  );
+};
+
+export default ExpenseItem;
+
