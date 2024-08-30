@@ -1,10 +1,10 @@
 # Augmentix_Asssignmnet
 
 Project Title: Expense Tracker:
-                • Objective: Create an application that allows users to track their daily expenses.< br / >
-                • Details: Use MongoDB for storing expense data, Express.js for server-side logic,< br / >
-                  React.js for the front-end, and Node.js for backend operations. Include features< br / >
-                  like adding, editing, and categorizing expenses.< br / >
+                • Objective: Create an application that allows users to track their daily expenses. <br / >
+                • Details: Use MongoDB for storing expense data, Express.js for server-side logic, <br / >
+                  React.js for the front-end, and Node.js for backend operations. Include features <br / >
+                  like adding, editing, and categorizing expenses. <br / >
 
 # Step by step breakdown of architecture and feature
 
